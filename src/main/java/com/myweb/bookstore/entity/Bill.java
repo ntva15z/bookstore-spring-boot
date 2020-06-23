@@ -19,6 +19,9 @@ public class Bill {
     @Column(name = "orderdate")
     private Date orderdate;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "total")
     private Double total;
 
@@ -66,5 +69,13 @@ public class Bill {
 
     public void setBillDetailList(List<BillDetail> billDetailList) {
         this.billDetailList = billDetailList;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

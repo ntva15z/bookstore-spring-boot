@@ -21,8 +21,6 @@ public class BillDetail {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "price")
-    private Double price;
 
     public BillDetail() {
     }
@@ -59,11 +57,4 @@ public class BillDetail {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

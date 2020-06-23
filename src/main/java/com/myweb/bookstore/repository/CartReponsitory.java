@@ -1,6 +1,7 @@
 package com.myweb.bookstore.repository;
 
 import com.myweb.bookstore.entity.Cart;
+import com.myweb.bookstore.entity.Customer;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

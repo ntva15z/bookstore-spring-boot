@@ -10,16 +10,18 @@
 <div layout:fragment="content">
     <section class="wn__checkout__area section-padding--lg bg__white">
         <div class="container">
+            <div align="center" th:if="${message!=null}">
+                <span style="font-size: 20px;font-family: 'Showcard Gothic';color: #fad42e">[[${message}]]</span>
+            </div>
             <div class="row">
-
-                    <div class="col-lg-6 col-12">
-                        <div class="customer_details">
-                            <h3>Billing details</h3>
-                            <div class="customar__field">
-                                <form th:object="${customer}">
+                <div class="col-lg-6 col-12">
+                    <div class="customer_details">
+                        <h3>Billing details</h3>
+                        <div class="customar__field">
+                            <form th:object="${customer}" th:action="@{'/trang-chu/checkOut'}" method="post">
                                 <div class="input_box ">
                                     <label>Name <span>*</span></label>
-                                    <input type="text" th:value="${customer.name}"readonly>
+                                    <input type="text" th:value="${customer.name}" readonly>
                                 </div>
                                 <div class="margin_between">
                                     <div class="input_box space_between">
@@ -33,7 +35,7 @@
                                 </div>
                                 <div class="input_box ">
                                     <label>Phone <span>*</span></label>
-                                    <input type="text" th:value="${customer.phone}"readonly>
+                                    <input type="text" th:value="${customer.phone}" readonly>
                                 </div>
                                 <div class="input_box ">
                                     <label>Email <span>*</span></label>
@@ -43,11 +45,14 @@
                                     <label>Address <span>*</span></label>
                                     <input type="text" placeholder="Street address" id="address" name="address">
                                 </div>
-                                </form>
-                            </div>
-
+                                <div>
+                                    <input type="submit" class="btn btn-primary" value="Check Out">
+                                </div>
+                            </form>
                         </div>
+
                     </div>
+                </div>
 
                 <div class="col-lg-6 col-12 md-mt-40 sm-mt-40">
                     <div class="wn__order__box">
@@ -57,7 +62,8 @@
                             <li>Total</li>
                         </ul>
                         <ul class="order_product" th:each="item:${cartdetail}">
-                            <li>[[${item.product.name}]] × [[${item.quantity}]]<span>$ [[${item.quantity * item.product.price}]]</span></li>
+                            <li>[[${item.product.name}]] × [[${item.quantity}]]<span>$ [[${item.quantity * item.product.price}]]</span>
+                            </li>
                         </ul>
                         <ul class="shipping__method">
                             <li>Total <span>$[[${total}]]</span></li>
@@ -109,7 +115,8 @@
                             <div class="che__header" role="tab" id="headingFour">
                                 <a class="collapsed checkout__title" data-toggle="collapse" href="#collapseFour"
                                    aria-expanded="false" aria-controls="collapseFour">
-                                    <span>PayPal <img th:src="@{/web/images/icons/payment.png}" alt="payment images"> </span>
+                                    <span>PayPal <img th:src="@{/web/images/icons/payment.png}"
+                                                      alt="payment images"> </span>
                                 </a>
                             </div>
                             <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour"
@@ -122,7 +129,9 @@
                 </div>
             </div>
         </div>
+
     </section>
+
 </div>
 </body>
 </html>

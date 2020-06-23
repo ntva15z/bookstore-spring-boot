@@ -1,9 +1,8 @@
 package com.myweb.bookstore.controller;
 
-import com.myweb.bookstore.entity.Cart;
-import com.myweb.bookstore.entity.CartDetail;
-import com.myweb.bookstore.entity.Customer;
-import com.myweb.bookstore.entity.Product;
+import com.myweb.bookstore.entity.*;
+import com.myweb.bookstore.repository.BillDetailReponsitory;
+import com.myweb.bookstore.repository.BillReponsitory;
 import com.myweb.bookstore.repository.CartDetailReponsitory;
 import com.myweb.bookstore.repository.CartReponsitory;
 import com.myweb.bookstore.service.CartDetailService;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +37,12 @@ public class CartController {
 
     @Autowired
     private CartDetailReponsitory cartDetailReponsitory;
+
+    @Autowired
+    private BillReponsitory billReponsitory;
+
+    @Autowired
+    private BillDetailReponsitory billDetailReponsitory;
 
     @GetMapping("/addtocart/{id}")
     public String addToCart(@PathVariable(name = "id") Long id, ModelMap model, HttpSession session) {
@@ -119,7 +125,7 @@ public class CartController {
     }
 
     @GetMapping("/checkOut")
-    public String checkOutView(HttpSession session,ModelMap model){
+    public String checkOutView(HttpSession session,ModelMap model,@ModelAttribute ("message")String message){
         if(session.getAttribute("customer")!=null){
             Customer customer = (Customer)session.getAttribute("customer");
             model.addAttribute("customername",customer.getName());
@@ -128,12 +134,44 @@ public class CartController {
             model.addAttribute("cartdetail", list);
             Double total = cartReponsitory.total(customer.getId());
             model.addAttribute("total", total);
+            model.addAttribute("message",message);
+            System.out.println(message);
             return "web/cart/checkOut";
         }
         return "redirect:/login";
     }
 
 
-
-
+    @PostMapping("checkOut")
+    public String checkOutSubmit(HttpSession session,@RequestParam("address")String address,RedirectAttributes ra){
+        Customer customer = (Customer)session.getAttribute("customer");
+        List<CartDetail> list = cartDetailReponsitory.findByCustomer(customer.getId());
+        if(list.isEmpty()){
+            ra.addFlashAttribute("message","Cart is empty!");
+            return "redirect:/trang-chu/checkOut";
+        }
+        for (CartDetail c:list){
+            if(c.getQuantity()>c.getProduct().getQuantity()){
+                ra.addFlashAttribute("message","Quantity product out of stock!");
+                return "redirect:/checkOut";
+            }
+        }
+        Double total = cartReponsitory.total(customer.getId());
+        Bill bill = new Bill();
+        bill.setCustomer(customer);
+        bill.setOrderdate(Calendar.getInstance().getTime());
+        bill.setTotal(total);
+        bill.setAddress(address);
+        billReponsitory.save(bill);
+        for (CartDetail c:list){
+            BillDetail billDetail = new BillDetail();
+            billDetail.setBill(bill);
+            billDetail.setQuantity(c.getQuantity());
+            billDetail.setProduct(c.getProduct());
+            billDetailReponsitory.save(billDetail);
+            cartDetailService.deleteById(c.getId());
+        }
+        ra.addFlashAttribute("message","Check Out Success!");
+        return "redirect:/trang-chu/checkOut";
+    }
 }
