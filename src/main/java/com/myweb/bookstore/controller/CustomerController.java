@@ -47,8 +47,4 @@ public class CustomerController {
         customerService.save(entity);
         return "redirect:login";
     }
-
-
-
-
 }

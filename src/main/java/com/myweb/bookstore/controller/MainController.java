@@ -35,8 +35,16 @@ public class MainController {
     private CustomerService customerService;
 
     @GetMapping(value = "/admin/home")
-    public String home() {
-        return "admin/home";
+    public String home(HttpSession session) {
+        if(session.getAttribute("customer")!=null){
+            Customer customer = (Customer)session.getAttribute("customer");
+            for (Role r :customer.getRoleList()){
+                if(r.getId().equals(Long.parseLong(String.valueOf(1)))){
+                    return "admin/home";
+                }
+            }
+        }
+        return "redirect:/trang-chu";
     }
 
     @GetMapping("/login")
