@@ -6,12 +6,9 @@ import com.myweb.bookstore.entity.Customer;
 import com.myweb.bookstore.entity.Product;
 import com.myweb.bookstore.repository.CartDetailReponsitory;
 import com.myweb.bookstore.repository.CartReponsitory;
-import com.myweb.bookstore.repository.ProductReponsitory;
 import com.myweb.bookstore.service.CartDetailService;
 import com.myweb.bookstore.service.CartService;
-import com.myweb.bookstore.service.CustomerService;
 import com.myweb.bookstore.service.ProductService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,6 +117,23 @@ public class CartController {
         }
         return "redirect:/trang-chu/viewcart";
     }
+
+    @GetMapping("/checkOut")
+    public String checkOutView(HttpSession session,ModelMap model){
+        if(session.getAttribute("customer")!=null){
+            Customer customer = (Customer)session.getAttribute("customer");
+            model.addAttribute("customername",customer.getName());
+            model.addAttribute("customer",customer);
+            List<CartDetail> list = cartDetailReponsitory.findByCustomer(customer.getId());
+            model.addAttribute("cartdetail", list);
+            Double total = cartReponsitory.total(customer.getId());
+            model.addAttribute("total", total);
+            return "web/cart/checkOut";
+        }
+        return "redirect:/login";
+    }
+
+
 
 
 }

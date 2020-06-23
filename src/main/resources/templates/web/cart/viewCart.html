@@ -9,10 +9,11 @@
 <body>
     <div layout:fragment="content">
         <div class="cart-main-area section-padding--lg bg--white">
-            <form action="/trang-chu/updateCart" method="post">
+
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 ol-lg-12">
+                        <form action="/trang-chu/updateCart" method="post">
 
                             <div class="table-content wnro__table table-responsive">
                                 <div align="center"  th:if="${message}"><span style="font-size: 20px;font-family: 'Showcard Gothic';color: #fad42e">[[${message}]]</span></div>
@@ -65,6 +66,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </form>
+                        <div class="cartbox__btn">
+                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <li><a th:href="@{'/trang-chu/checkOut'}">Check Out</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -75,13 +82,12 @@
                             <div class="cart__total__amount">
                                 <span>Total</span>
                                 <span>$[[${total}]]</span>
-                                <button>Check Out</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </form>
+
         </div>
     </div>
 </body>
