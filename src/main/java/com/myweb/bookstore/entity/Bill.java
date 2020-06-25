@@ -25,6 +25,9 @@ public class Bill {
     @Column(name = "total")
     private Double total;
 
+    @Column(name = "status")
+    private int status;
+
     @OneToMany(mappedBy = "bill")
     private List<BillDetail> billDetailList = new ArrayList<>();
 
@@ -77,5 +80,13 @@ public class Bill {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -162,6 +162,7 @@ public class CartController {
         bill.setOrderdate(Calendar.getInstance().getTime());
         bill.setTotal(total);
         bill.setAddress(address);
+        bill.setStatus(1);
         billReponsitory.save(bill);
         for (CartDetail c:list){
             BillDetail billDetail = new BillDetail();

@@ -47,6 +47,12 @@ public class MainController {
         return "redirect:/trang-chu";
     }
 
+    @GetMapping("/admin/logout")
+    public String logoutAdmin(HttpSession session){
+        session.removeAttribute("customer");
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String loginForm() {
         return "login";

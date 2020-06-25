@@ -7,12 +7,11 @@ import com.myweb.bookstore.service.CategoryService;
 import com.myweb.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("/saveOrUpdate")
-    public String saveOrUpdate(ModelMap model, Product product, @RequestParam("file") MultipartFile file) throws IOException {
+    public String saveOrUpdate(ModelMap model, @RequestParam("file") MultipartFile file,Product product) throws IOException {
         Path path = Paths.get("D:\\java5\\bookstore\\src\\main\\resources\\static\\bookimage/");
         try {
             InputStream inputStream = file.getInputStream();
@@ -72,8 +71,19 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(ModelMap model, @PathVariable(name = "id") Long id) {
-        productService.deleteById(id);
+    public String delete(ModelMap model, @PathVariable(name = "id") Long id, RedirectAttributes ra) {
+//        productService.deleteById(id);
+        try {
+            Optional<Product> opt = productReponsitory.findById(id);
+            if(opt.isPresent()){
+                opt.get().setStatus("Out Stock");
+                productService.save(opt.get());
+                model.addAttribute("product",opt.get());
+            }
+        }catch (Exception e){
+            ra.addFlashAttribute("message","Don't delete!");
+            e.printStackTrace();
+        }
         return "redirect:/admin/product/list";
     }
 
@@ -87,7 +97,8 @@ public class ProductController {
 //    }
 
     @GetMapping(value = "/list")
-    public String viewListpage(ModelMap model) {
+    public String viewListpage(ModelMap model,@ModelAttribute("message")String message) {
+        model.addAttribute("message",message);
         return findPaginated(1, model);
     }
 

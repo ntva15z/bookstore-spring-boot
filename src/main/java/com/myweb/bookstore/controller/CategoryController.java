@@ -5,6 +5,9 @@ import com.myweb.bookstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +26,15 @@ public class CategoryController {
     }
 
     @PostMapping("/saveOrUpdate")
-    public String saveOrUpdate(ModelMap model, Category category) {
+    public String saveOrUpdate(ModelMap model, @Validated @ModelAttribute Category category, Errors errors) {
+
+        if (errors.hasErrors()){
+            return "admin/category/addOrEdit";
+        }
         cateService.save(category);
         model.addAttribute("category",category);
         return list(model);
+
     }
 
     @GetMapping("/edit/{id}")

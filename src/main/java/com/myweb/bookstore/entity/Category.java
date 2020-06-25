@@ -1,9 +1,11 @@
 package com.myweb.bookstore.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
     @Entity
     @Table(name = "category")
@@ -14,6 +16,7 @@ import java.util.List;
         private Long id;
 
         @Column(name = "name",length = 100)
+        @NotBlank
         private String name;
 
         @OneToMany(mappedBy = "category")

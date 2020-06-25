@@ -19,6 +19,7 @@
         <div class="form-group">
             <label for="exampleInputPassword1">Name</label>
             <input type="text" th:field="*{name}" class="form-control" id="exampleInputPassword1">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a th:href="@{/admin/category/list}">List Category</a>
