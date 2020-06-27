@@ -179,12 +179,6 @@ public class CartController {
             billDetail.setBill(bill);
             billDetail.setQuantity(c.getQuantity());
             billDetail.setProduct(c.getProduct());
-
-            Optional<Product> optionalProduct = productService.findById(c.getProduct().getId());
-            if(optionalProduct.isPresent()){
-                optionalProduct.get().setQuantity(optionalProduct.get().getQuantity()-c.getQuantity());
-                productService.save(optionalProduct.get());
-            }
             billDetailReponsitory.save(billDetail);
             cartDetailService.deleteById(c.getId());
         }
