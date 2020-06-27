@@ -46,14 +46,14 @@
                             </td>
                             <td th:text="${item.status}"></td>
                             <td>
-                                <a th:href="@{'/admin/product/edit/'+${item.id}}"><i class="far fa-edit"></i>Edit</a>|
-                                <a th:href="@{'/admin/product/delete/'+${item.id}}"><i
-                                        class="fas fa-trash"></i>Delete</a>
+                                <a class="btn btn-primary" th:href="@{'/admin/product/edit/'+${item.id}}"><i class="far fa-edit"></i></a>
+                                <a class="btn btn-primary" th:href="@{'/admin/product/delete/'+${item.id}}"><i
+                                        class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     </table>
                     <ul class="pagination">
-                        <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a th:if="${currentPage >1}" th:href="@{'/admin/product/list/page/' + ${currentPage -1}}"
+                        <li class="paginate_button page-item previous" id="dataTable_previous"><a th:if="${currentPage >1}" th:href="@{'/admin/product/list/page/' + ${currentPage -1}}"
                                                                                                            aria-controls="dataTable"
                                                                                                            data-dt-idx="0"
                                                                                                            tabindex="0"

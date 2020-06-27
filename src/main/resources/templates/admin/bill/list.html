@@ -22,7 +22,8 @@
                             <th rowspan="1" colspan="1">ID</th>
                             <th rowspan="1" colspan="1">Name</th>
                             <th rowspan="1" colspan="1">Email</th>
-                            <th rowspan="1" colspan="1">Date</th>
+                            <th rowspan="1" colspan="1">OrderDate</th>
+                            <th rowspan="1" colspan="1">ComfirmDate</th>
                             <th rowspan="1" colspan="1">Total</th>
                             <th rowspan="1" colspan="1">Address</th>
                             <th rowspan="1" colspan="1">Status</th>
@@ -32,7 +33,8 @@
                             <td class="sorting_1" th:text="${item.id}"></td>
                             <td th:text="${item.customer.name}"></td>
                             <td th:text="${item.customer.email}"></td>
-                            <td th:text="${item.orderdate}"></td>
+                            <td th:utext="${item.orderdate}"></td>
+                            <td th:utext="${item.activedate}"></td>
                             <td th:text="${item.total}"></td>
                             <td th:text="${item.address}"></td>
                             <td th:if="${item.status==1}" >Chờ xác nhận</td>

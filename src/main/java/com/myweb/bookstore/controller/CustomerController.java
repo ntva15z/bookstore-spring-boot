@@ -8,6 +8,8 @@ import com.myweb.bookstore.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -20,13 +22,8 @@ public class CustomerController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private RoleReponsitory roleReponsitory;
 
-    private  MainController mainController;
-//    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping(value = "/registration")
     public String registration(ModelMap model) {
         model.addAttribute("customer", new Customer());
 
@@ -34,15 +31,17 @@ public class CustomerController {
     }
 
     @PostMapping("/registration")
-    public String registerUserAccount(Customer entity, @RequestParam("gender")String gender) {
+    public String registerUserAccount(@RequestParam("gender")String gender,@Validated @ModelAttribute Customer entity, Errors errors) {
         entity.setGender(gender);
         entity.setRegisterdate(Calendar.getInstance().getTime());
-//        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         Set<Role> roles = new HashSet<>();
-        Optional<Role> role = roleService.findById(Long.parseLong(String.valueOf(1)));
+        Optional<Role> role = roleService.findById(Long.parseLong(String.valueOf(2)));
         if (role.isPresent()){
             roles.add(role.get());
             entity.setRoleList(roles);
+        }
+        if(errors.hasErrors()){
+            return "registration";
         }
         customerService.save(entity);
         return "redirect:login";

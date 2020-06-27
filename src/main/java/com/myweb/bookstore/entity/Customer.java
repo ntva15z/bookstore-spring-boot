@@ -3,7 +3,12 @@ package com.myweb.bookstore.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -14,6 +19,8 @@ public class Customer implements Serializable {
     private Long id;
 
     @Column(name = "name")
+    @NotBlank
+    @NotNull
     private String name;
 
     @Column(name = "gender")
@@ -24,12 +31,18 @@ public class Customer implements Serializable {
     private Date DOB;
 
     @Column(name = "email")
+    @NotBlank
+    @Email
     private String email;
 
     @Column(name = "phone")
+    @NotNull
+    @Pattern(regexp = "0[0-9]{9}",message = "Starting at 0 and have 10 numbers")
     private String phone;
 
     @Column(name = "password")
+    @NotNull
+    @NotBlank
     private String password;
 
     @ManyToMany

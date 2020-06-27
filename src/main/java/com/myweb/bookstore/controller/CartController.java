@@ -84,10 +84,15 @@ public class CartController {
 
     @GetMapping("/viewcart")
     public String viewCart(ModelMap model,HttpSession session){
+        int result=0;
         if(session.getAttribute("customer")!=null) {
             Customer customer = (Customer) session.getAttribute("customer");
             model.addAttribute("customername", customer.getName());
             List<CartDetail> list = cartDetailReponsitory.findByCustomer(customer.getId());
+            for (CartDetail c : list) {
+                result += c.getQuantity();
+            }
+            model.addAttribute("result", result);
             model.addAttribute("cartdetail", list);
             Double total = cartReponsitory.total(customer.getId());
             model.addAttribute("total", total);
@@ -126,11 +131,16 @@ public class CartController {
 
     @GetMapping("/checkOut")
     public String checkOutView(HttpSession session,ModelMap model,@ModelAttribute ("message")String message){
+        int result=0;
         if(session.getAttribute("customer")!=null){
             Customer customer = (Customer)session.getAttribute("customer");
             model.addAttribute("customername",customer.getName());
             model.addAttribute("customer",customer);
             List<CartDetail> list = cartDetailReponsitory.findByCustomer(customer.getId());
+            for (CartDetail c : list) {
+                result += c.getQuantity();
+            }
+            model.addAttribute("result", result);
             model.addAttribute("cartdetail", list);
             Double total = cartReponsitory.total(customer.getId());
             model.addAttribute("total", total);
@@ -169,6 +179,12 @@ public class CartController {
             billDetail.setBill(bill);
             billDetail.setQuantity(c.getQuantity());
             billDetail.setProduct(c.getProduct());
+
+            Optional<Product> optionalProduct = productService.findById(c.getProduct().getId());
+            if(optionalProduct.isPresent()){
+                optionalProduct.get().setQuantity(optionalProduct.get().getQuantity()-c.getQuantity());
+                productService.save(optionalProduct.get());
+            }
             billDetailReponsitory.save(billDetail);
             cartDetailService.deleteById(c.getId());
         }

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-4 col-7 col-lg-2">
                 <div class="logo">
-                    <a href="index.html">
+                    <a th:href="@{/trang-chu}">
                         <img width="50" height="50" th:src="@{/bookimage/logo.jpg}" alt="logo images">
                     </a>
                 </div>
@@ -15,32 +15,28 @@
                         <li class="drop"><a href="#">Pages</a>
                             <div class="megamenu dropdown">
                                 <ul class="item item01">
-                                    <li><a href="about.html">About Page</a></li>
-                                    <li class="label2"><a href="portfolio.html">Portfolio</a>
+                                    <li><a href="#">About Page</a></li>
+                                    <li class="label2"><a href="#">Portfolio</a>
                                         <ul>
-                                            <li><a href="portfolio.html">Portfolio</a></li>
-                                            <li><a href="portfolio-details.html">Portfolio Details</a></li>
+                                            <li><a href="#">Portfolio</a></li>
+                                            <li><a href="#">Portfolio Details</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="my-account.html">My Account</a></li>
+                                    <li><a href="#">My Account</a></li>
                                     <li><a th:href="@{'/trang-chu/viewcart'}">Cart Page</a></li>
                                     <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
-                                    <li><a href="error404.html">404 Page</a></li>
-                                    <li><a href="faq.html">Faq Page</a></li>
-                                    <li><a href="team.html">Team Page</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="drop"><a href="blog.html">Blog</a>
+                        <li class="drop"><a href="#">Blog</a>
                             <div class="megamenu dropdown">
                                 <ul class="item item01">
-                                    <li><a href="blog.html">Blog Page</a></li>
-                                    <li><a href="blog-details.html">Blog Details</a></li>
+                                    <li><a href="#">Blog Page</a></li>
+                                    <li><a href="#">Blog Details</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -48,7 +44,7 @@
                 <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
                     <li class="shop_search"><a class="search__active" href="#"></a></li>
                     <li class="wishlist"><a href="#"></a></li>
-                    <li th:if="${cartdetail}"  class="shopcart"><a class="cartbox_active" href="#"><span class="product_qun" >[[${cartdetail.size()}]]</span></a>
+                    <li th:if="${cartdetail}"  class="shopcart"><a class="cartbox_active" href="#"><span class="product_qun" >[[${result}]]</span></a>
                         <!-- Start Shopping Cart -->
                         <div class="block-minicart minicart__active">
                             <div class="minicart-content-wrapper">

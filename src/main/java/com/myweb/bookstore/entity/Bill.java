@@ -1,5 +1,6 @@
 package com.myweb.bookstore.entity;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,9 @@ public class Bill {
 
     @Column(name = "orderdate")
     private Date orderdate;
+
+    @Column(name = "activedate")
+    private Date activedate;
 
     @Column(name = "address")
     private String address;
@@ -88,5 +92,13 @@ public class Bill {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Date getActivedate() {
+        return activedate;
+    }
+
+    public void setActivedate(Date activedate) {
+        this.activedate = activedate;
     }
 }
